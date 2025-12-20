@@ -1,29 +1,34 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { AlertTriangle, Phone, X } from "lucide-react";
+import { AlertTriangle, Phone, X, ArrowDown, ArrowUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
 
 interface Alert {
   id: string;
-  type: "warning" | "urgent";
+  type: "hypo" | "hyper" | "reminder";
   title: string;
   message: string;
+  value?: string;
   action?: string;
+  threshold?: string;
 }
 
 const initialAlerts: Alert[] = [
   {
     id: "1",
-    type: "warning",
-    title: "Blood pressure elevated",
-    message: "Your last reading (145/92 mmHg) was above target. Consider resting and retaking in 30 minutes.",
-    action: "Log new reading",
+    type: "hyper",
+    title: "High glucose detected",
+    message: "Your post-lunch reading was 185 mg/dL. Consider a correction dose or light physical activity.",
+    value: "185",
+    threshold: ">180 mg/dL",
+    action: "Log correction dose",
   },
   {
     id: "2",
-    type: "warning",
-    title: "Medication reminder",
-    message: "You haven't logged your evening Lisinopril dose yet today.",
+    type: "reminder",
+    title: "Insulin reminder",
+    message: "You haven't logged your lunchtime rapid-acting insulin yet.",
     action: "Mark as taken",
   },
 ];
@@ -38,11 +43,11 @@ export const AlertCard = () => {
   if (alerts.length === 0) return null;
 
   return (
-    <Card variant="warning" className="animate-slide-up" style={{ animationDelay: "0.15s" }}>
+    <Card variant="warning" className="animate-fade-in">
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center gap-2 text-warning">
           <AlertTriangle className="h-5 w-5" />
-          Attention Needed
+          Attention Required
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
@@ -51,8 +56,30 @@ export const AlertCard = () => {
             key={alert.id}
             className="flex items-start gap-3 rounded-lg bg-card p-3 border"
           >
+            {alert.type === "hyper" && (
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-destructive/10">
+                <ArrowUp className="h-4 w-4 text-destructive" />
+              </div>
+            )}
+            {alert.type === "hypo" && (
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-warning/10">
+                <ArrowDown className="h-4 w-4 text-warning" />
+              </div>
+            )}
+            {alert.type === "reminder" && (
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10">
+                <AlertTriangle className="h-4 w-4 text-primary" />
+              </div>
+            )}
             <div className="flex-1 min-w-0">
-              <p className="font-medium text-sm text-foreground">{alert.title}</p>
+              <div className="flex items-center gap-2">
+                <p className="font-medium text-sm text-foreground">{alert.title}</p>
+                {alert.threshold && (
+                  <Badge variant="outline" className="text-[10px] text-destructive border-destructive/30">
+                    {alert.threshold}
+                  </Badge>
+                )}
+              </div>
               <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
                 {alert.message}
               </p>
@@ -75,7 +102,7 @@ export const AlertCard = () => {
         <div className="flex items-center gap-2 pt-2 border-t">
           <Phone className="h-4 w-4 text-muted-foreground" />
           <p className="text-xs text-muted-foreground">
-            If symptoms persist, contact your healthcare provider.
+            <strong>Severe hypo (&lt;54 mg/dL)?</strong> Treat immediately with fast-acting glucose. Contact your care team if needed.
           </p>
         </div>
       </CardContent>
