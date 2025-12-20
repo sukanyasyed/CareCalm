@@ -17,9 +17,9 @@ const Index = () => {
       <main className="container px-4 py-6 lg:py-8">
         {/* Welcome Section */}
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-foreground lg:text-3xl">
-            Good morning, Sarah 👋
-          </h1>
+        <h1 className="text-2xl font-bold text-foreground lg:text-3xl">
+          Good morning, Sukanya 👋
+        </h1>
           <p className="mt-1 text-muted-foreground">
             Here's your personalized diabetes care plan for today.
           </p>
