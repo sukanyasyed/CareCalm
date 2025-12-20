@@ -5,8 +5,9 @@ import { TrendChart } from "@/components/dashboard/TrendChart";
 import { MotivationalCard } from "@/components/dashboard/MotivationalCard";
 import { AlertCard } from "@/components/dashboard/AlertCard";
 import { WeeklyPlan } from "@/components/dashboard/WeeklyPlan";
+import { CarbTracker } from "@/components/dashboard/CarbTracker";
 import { Disclaimer } from "@/components/dashboard/Disclaimer";
-import { Droplet, Heart, Activity, Scale } from "lucide-react";
+import { Droplet, Activity, Syringe, Target } from "lucide-react";
 
 const Index = () => {
   return (
@@ -20,47 +21,50 @@ const Index = () => {
             Good morning, Sarah 👋
           </h1>
           <p className="mt-1 text-muted-foreground">
-            Here's your personalized care plan for today.
+            Here's your personalized diabetes care plan for today.
           </p>
         </div>
 
         {/* Metrics Grid */}
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-6">
           <MetricCard
-            title="Blood Glucose"
-            value="105"
+            title="Current Glucose"
+            value="128"
             unit="mg/dL"
-            trend="down"
-            trendValue="8%"
+            trend="stable"
+            trendValue="In range"
             status="normal"
             icon={<Droplet className="h-5 w-5" />}
+            subtitle="Last check: 2:15 PM"
           />
           <MetricCard
-            title="Blood Pressure"
-            value="128/82"
-            unit="mmHg"
-            trend="stable"
-            trendValue="stable"
+            title="Time in Range"
+            value="68"
+            unit="%"
+            trend="down"
+            trendValue="+6%"
             status="normal"
-            icon={<Heart className="h-5 w-5" />}
+            icon={<Target className="h-5 w-5" />}
+            subtitle="Target: 70%+"
+          />
+          <MetricCard
+            title="Today's Insulin"
+            value="24"
+            unit="units"
+            trend="stable"
+            status="normal"
+            icon={<Syringe className="h-5 w-5" />}
+            subtitle="2 doses logged"
           />
           <MetricCard
             title="Daily Steps"
             value="4,250"
             unit="/ 6,000"
-            trend="up"
-            trendValue="12%"
+            trend="down"
+            trendValue="71%"
             status="normal"
             icon={<Activity className="h-5 w-5" />}
-          />
-          <MetricCard
-            title="Weight"
-            value="168"
-            unit="lbs"
-            trend="down"
-            trendValue="2 lbs"
-            status="normal"
-            icon={<Scale className="h-5 w-5" />}
+            subtitle="Keep moving!"
           />
         </div>
 
@@ -74,6 +78,7 @@ const Index = () => {
           <div className="space-y-6">
             <DailyTasks />
             <MotivationalCard />
+            <CarbTracker />
           </div>
           <div className="space-y-6">
             <TrendChart />

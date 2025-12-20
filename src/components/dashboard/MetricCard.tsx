@@ -10,6 +10,7 @@ interface MetricCardProps {
   trendValue?: string;
   status?: "normal" | "warning" | "alert";
   icon: React.ReactNode;
+  subtitle?: string;
 }
 
 export const MetricCard = ({
@@ -20,6 +21,7 @@ export const MetricCard = ({
   trendValue,
   status = "normal",
   icon,
+  subtitle,
 }: MetricCardProps) => {
   const statusStyles = {
     normal: "border-success/30 bg-success/5",
@@ -28,15 +30,15 @@ export const MetricCard = ({
   };
 
   const trendStyles = {
-    up: "text-success",
-    down: "text-destructive",
+    up: "text-destructive",
+    down: "text-success",
     stable: "text-muted-foreground",
   };
 
   const TrendIcon = trend === "up" ? TrendingUp : trend === "down" ? TrendingDown : Minus;
 
   return (
-    <Card variant="metric" className={cn("animate-slide-up", statusStyles[status])}>
+    <Card variant="metric" className={cn("animate-fade-in", statusStyles[status])}>
       <div className="flex items-start justify-between">
         <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
           {icon}
@@ -54,6 +56,9 @@ export const MetricCard = ({
           <span className="text-3xl font-bold text-foreground">{value}</span>
           <span className="text-sm text-muted-foreground">{unit}</span>
         </div>
+        {subtitle && (
+          <p className="mt-1 text-xs text-muted-foreground">{subtitle}</p>
+        )}
       </div>
     </Card>
   );

@@ -1,38 +1,39 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, CheckCircle2, Circle, ArrowRight } from "lucide-react";
+import { Calendar, CheckCircle2, Circle, ArrowRight, Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const weeklyGoals = [
-  { id: "1", title: "Complete all glucose checks", target: 14, current: 11, unit: "checks" },
-  { id: "2", title: "30-min daily activity", target: 7, current: 5, unit: "days" },
-  { id: "3", title: "Medication adherence", target: 100, current: 92, unit: "%" },
-  { id: "4", title: "Balanced meals logged", target: 21, current: 18, unit: "meals" },
+  { id: "1", title: "Glucose checks completed", target: 28, current: 22, unit: "checks" },
+  { id: "2", title: "Time in range (70-180 mg/dL)", target: 70, current: 68, unit: "%" },
+  { id: "3", title: "Insulin doses logged", target: 14, current: 13, unit: "doses" },
+  { id: "4", title: "30-min daily activity", target: 7, current: 5, unit: "days" },
+  { id: "5", title: "Carb logs recorded", target: 21, current: 18, unit: "meals" },
 ];
 
 const adjustments = [
-  "Consider adding a short evening walk to help with post-dinner glucose levels.",
-  "Great job on medication consistency! Keep it up.",
-  "Try incorporating more leafy greens into your lunch for better glucose control.",
+  { text: "Post-lunch glucose tends to spike. Consider adjusting your lunch insulin-to-carb ratio.", type: "action" },
+  { text: "Morning fasting glucose is well-controlled (avg 98 mg/dL). Great work!", type: "positive" },
+  { text: "Add a 10-minute walk after dinner to help with evening glucose levels.", type: "tip" },
 ];
 
 export const WeeklyPlan = () => {
   return (
-    <Card variant="elevated" className="animate-slide-up" style={{ animationDelay: "0.25s" }}>
+    <Card variant="elevated" className="animate-fade-in">
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
             <CardTitle className="flex items-center gap-2">
               <Calendar className="h-5 w-5 text-primary" />
-              Weekly Progress
+              Weekly Diabetes Goals
             </CardTitle>
             <CardDescription className="mt-1">
               Dec 15 - Dec 21, 2024
             </CardDescription>
           </div>
           <Button variant="outline" size="sm">
-            View details
+            Full report
             <ArrowRight className="ml-1 h-4 w-4" />
           </Button>
         </div>
@@ -64,7 +65,7 @@ export const WeeklyPlan = () => {
                   <div
                     className={cn(
                       "h-full rounded-full transition-all duration-500",
-                      isComplete ? "bg-success" : "gradient-primary"
+                      isComplete ? "bg-success" : "bg-primary"
                     )}
                     style={{ width: `${Math.min(progress, 100)}%` }}
                   />
@@ -75,19 +76,23 @@ export const WeeklyPlan = () => {
         </div>
 
         <div className="rounded-lg bg-secondary/50 p-4">
-          <h4 className="text-sm font-semibold text-foreground mb-2">
-            AI-Suggested Adjustments
+          <h4 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
+            <Lightbulb className="h-4 w-4 text-primary" />
+            AI-Powered Insights
           </h4>
-          <ul className="space-y-2">
+          <ul className="space-y-2.5">
             {adjustments.map((adj, i) => (
               <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                {adj}
+                <span className={cn(
+                  "mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full",
+                  adj.type === "positive" ? "bg-success" : adj.type === "action" ? "bg-warning" : "bg-primary"
+                )} />
+                {adj.text}
               </li>
             ))}
           </ul>
           <p className="mt-3 text-xs text-muted-foreground italic">
-            Based on ADA/AHA guidelines and your recent trends.
+            Suggestions based on ADA Standards of Care and your recent patterns.
           </p>
         </div>
       </CardContent>
