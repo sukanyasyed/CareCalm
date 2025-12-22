@@ -7,7 +7,9 @@ import { AlertCard } from "@/components/dashboard/AlertCard";
 import { WeeklyPlan } from "@/components/dashboard/WeeklyPlan";
 import { CarbTracker } from "@/components/dashboard/CarbTracker";
 import { Disclaimer } from "@/components/dashboard/Disclaimer";
+import { BehavioralInsights } from "@/components/ai/BehavioralInsights";
 import { Droplet, Activity, Syringe, Target } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Index = () => {
   return (
@@ -25,68 +27,81 @@ const Index = () => {
           </p>
         </div>
 
-        {/* Metrics Grid */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-6">
-          <MetricCard
-            title="Current Glucose"
-            value="128"
-            unit="mg/dL"
-            trend="stable"
-            trendValue="In range"
-            status="normal"
-            icon={<Droplet className="h-5 w-5" />}
-            subtitle="Last check: 2:15 PM"
-          />
-          <MetricCard
-            title="Time in Range"
-            value="68"
-            unit="%"
-            trend="down"
-            trendValue="+6%"
-            status="normal"
-            icon={<Target className="h-5 w-5" />}
-            subtitle="Target: 70%+"
-          />
-          <MetricCard
-            title="Today's Insulin"
-            value="24"
-            unit="units"
-            trend="stable"
-            status="normal"
-            icon={<Syringe className="h-5 w-5" />}
-            subtitle="2 doses logged"
-          />
-          <MetricCard
-            title="Daily Steps"
-            value="4,250"
-            unit="/ 6,000"
-            trend="down"
-            trendValue="71%"
-            status="normal"
-            icon={<Activity className="h-5 w-5" />}
-            subtitle="Keep moving!"
-          />
-        </div>
+        {/* Tabs for Dashboard and AI Insights */}
+        <Tabs defaultValue="dashboard" className="space-y-6">
+          <TabsList className="grid w-full max-w-md grid-cols-2">
+            <TabsTrigger value="dashboard">Care Dashboard</TabsTrigger>
+            <TabsTrigger value="insights">AI Insights</TabsTrigger>
+          </TabsList>
 
-        {/* Alert Section */}
-        <div className="mb-6">
-          <AlertCard />
-        </div>
+          <TabsContent value="dashboard" className="space-y-6">
+            {/* Metrics Grid */}
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <MetricCard
+                title="Current Glucose"
+                value="128"
+                unit="mg/dL"
+                trend="stable"
+                trendValue="In range"
+                status="normal"
+                icon={<Droplet className="h-5 w-5" />}
+                subtitle="Last check: 2:15 PM"
+              />
+              <MetricCard
+                title="Time in Range"
+                value="68"
+                unit="%"
+                trend="down"
+                trendValue="+6%"
+                status="normal"
+                icon={<Target className="h-5 w-5" />}
+                subtitle="Target: 70%+"
+              />
+              <MetricCard
+                title="Today's Insulin"
+                value="24"
+                unit="units"
+                trend="stable"
+                status="normal"
+                icon={<Syringe className="h-5 w-5" />}
+                subtitle="2 doses logged"
+              />
+              <MetricCard
+                title="Daily Steps"
+                value="4,250"
+                unit="/ 6,000"
+                trend="down"
+                trendValue="71%"
+                status="normal"
+                icon={<Activity className="h-5 w-5" />}
+                subtitle="Keep moving!"
+              />
+            </div>
 
-        {/* Main Content Grid */}
-        <div className="grid gap-6 lg:grid-cols-2">
-          <div className="space-y-6">
-            <DailyTasks />
-            <MotivationalCard />
-            <CarbTracker />
-          </div>
-          <div className="space-y-6">
-            <TrendChart />
-            <WeeklyPlan />
-          </div>
-        </div>
+            {/* Alert Section */}
+            <AlertCard />
 
-        <Disclaimer />
+            {/* Main Content Grid */}
+            <div className="grid gap-6 lg:grid-cols-2">
+              <div className="space-y-6">
+                <DailyTasks />
+                <MotivationalCard />
+                <CarbTracker />
+              </div>
+              <div className="space-y-6">
+                <TrendChart />
+                <WeeklyPlan />
+              </div>
+            </div>
+
+            <Disclaimer />
+          </TabsContent>
+
+          <TabsContent value="insights">
+            <BehavioralInsights />
+            <Disclaimer />
+          </TabsContent>
+        </Tabs>
       </main>
     </div>
   );
