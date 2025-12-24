@@ -14,7 +14,123 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      activity_logs: {
+        Row: {
+          created_at: string
+          id: string
+          log_type: string
+          logged_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          log_type: string
+          logged_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          log_type?: string
+          logged_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      drift_events: {
+        Row: {
+          detected_at: string
+          drift_level: string
+          drift_type: string
+          engagement_score: number
+          id: string
+          metadata: Json | null
+          user_id: string
+        }
+        Insert: {
+          detected_at?: string
+          drift_level: string
+          drift_type: string
+          engagement_score: number
+          id?: string
+          metadata?: Json | null
+          user_id: string
+        }
+        Update: {
+          detected_at?: string
+          drift_level?: string
+          drift_type?: string
+          engagement_score?: number
+          id?: string
+          metadata?: Json | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      nudges: {
+        Row: {
+          id: string
+          is_read: boolean
+          language: string
+          message: string
+          nudge_type: string
+          sent_at: string
+          tone: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          is_read?: boolean
+          language?: string
+          message: string
+          nudge_type?: string
+          sent_at?: string
+          tone?: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          is_read?: boolean
+          language?: string
+          message?: string
+          nudge_type?: string
+          sent_at?: string
+          tone?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          language: string
+          name: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          language?: string
+          name: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          language?: string
+          name?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
