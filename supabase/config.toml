@@ -1,1 +1,10 @@
 project_id = "naurnvajgkxnkttldnqp"
+
+[functions.drift-analyze]
+verify_jwt = true
+
+[functions.logs]
+verify_jwt = true
+
+[functions.nudges]
+verify_jwt = true
