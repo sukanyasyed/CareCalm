@@ -8,6 +8,7 @@ import { WeeklyPlan } from "@/components/dashboard/WeeklyPlan";
 import { CarbTracker } from "@/components/dashboard/CarbTracker";
 import { Disclaimer } from "@/components/dashboard/Disclaimer";
 import { BehavioralInsights } from "@/components/ai/BehavioralInsights";
+import { LogEntryForm } from "@/components/dashboard/LogEntryForm";
 import { Droplet, Activity, Syringe, Target } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -84,6 +85,7 @@ const Index = () => {
             {/* Main Content Grid */}
             <div className="grid gap-6 lg:grid-cols-2">
               <div className="space-y-6">
+                <LogEntryForm />
                 <DailyTasks />
                 <MotivationalCard />
                 <CarbTracker />
