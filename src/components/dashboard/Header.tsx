@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import { Bell, Menu, Settings, User, LogIn } from "lucide-react";
+import { Menu, Settings, User, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
+import { NudgeNotifications } from "./NudgeNotifications";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
@@ -33,10 +33,7 @@ export const Header = () => {
         </div>
         
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" className="relative">
-            <Bell className="h-5 w-5" />
-            <span className="absolute top-2 right-2 h-2 w-2 rounded-full bg-destructive" />
-          </Button>
+          <NudgeNotifications />
           
           {user ? (
             <DropdownMenu>
