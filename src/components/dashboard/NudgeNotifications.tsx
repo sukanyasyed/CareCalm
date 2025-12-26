@@ -11,6 +11,7 @@ import { useBackendApi } from "@/hooks/useBackendApi";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import { formatDistanceToNow } from "date-fns";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Nudge {
   id: string;
@@ -52,6 +53,52 @@ export function NudgeNotifications() {
       fetchNudges();
     }
   }, [user]);
+
+  // Real-time subscription for new nudges
+  useEffect(() => {
+    if (!user) return;
+
+    const channel = supabase
+      .channel('nudges-realtime')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'nudges',
+          filter: `user_id=eq.${user.id}`,
+        },
+        (payload) => {
+          const newNudge = payload.new as Nudge;
+          setNudges((prev) => [newNudge, ...prev].slice(0, 10));
+          setUnreadCount((prev) => prev + 1);
+          toast({
+            title: "New Notification",
+            description: newNudge.message.slice(0, 50) + (newNudge.message.length > 50 ? "..." : ""),
+          });
+        }
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'nudges',
+          filter: `user_id=eq.${user.id}`,
+        },
+        (payload) => {
+          const updatedNudge = payload.new as Nudge;
+          setNudges((prev) =>
+            prev.map((n) => (n.id === updatedNudge.id ? updatedNudge : n))
+          );
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [user, toast]);
 
   useEffect(() => {
     if (open && user) {
